@@ -1,9 +1,9 @@
 CREATE TABLE `auditoria`(
-    `idAuditoria` INT PRIMARY KEY AUTO_INCREMENT,
-    `descripcion` VARCHAR(60),
-    `tipo_cambio_realizado` VARCHAR(256),
-    `fecha_cambio` DATETIME,
-    `responsable_cambio` VARCHAR(50)
+  `idAuditoria` INT PRIMARY KEY AUTO_INCREMENT,
+  `descripcion` VARCHAR(60),
+  `tipo_cambio_realizado` VARCHAR(256),
+  `fecha_cambio` DATETIME,
+  `responsable_cambio` VARCHAR(50)
 );
 CREATE TABLE `categoria` (
   `idcategoria` INT PRIMARY KEY AUTO_INCREMENT,
@@ -147,6 +147,7 @@ CREATE TABLE `venta` (
   `idempleado` INT DEFAULT NULL,
   `idimpuesto` INT NOT NULL, 
   `idcomprobante` INT DEFAULT NULL,
+  `descripcion` VARCHAR(256) NOT NULL,
   `monto` decimal(11,2) NOT NULL,
   `estado` ENUM('completada', 'cancelada','en proceso') NOT NULL,
   `metodo_de_pago` ENUM('efectivo', 'credito','debito', 'cuenta corriente', 'transferencia bancaria') NOT NULL,
