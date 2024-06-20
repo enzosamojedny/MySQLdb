@@ -1,3 +1,10 @@
+CREATE TABLE `auditoria`(
+    `idAuditoria` INT PRIMARY KEY AUTO_INCREMENT,
+    `descripcion` VARCHAR(60),
+    `tipo_cambio_realizado` VARCHAR(256),
+    `fecha_cambio` DATETIME,
+    `responsable_cambio` VARCHAR(50)
+);
 CREATE TABLE `categoria` (
   `idcategoria` INT PRIMARY KEY AUTO_INCREMENT,
   `nombre` VARCHAR(100) UNIQUE NOT NULL,
