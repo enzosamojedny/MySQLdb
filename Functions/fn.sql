@@ -1,0 +1,24 @@
+DELIMITER $$
+
+CREATE FUNCTION nombre_completo(nombre VARCHAR(100), apellido VARCHAR(100))
+RETURNS VARCHAR(200)
+DETERMINISTIC
+BEGIN
+    RETURN CONCAT(nombre, ' ', apellido);
+END$$
+
+CREATE FUNCTION obtener_antiguedad(fecha_contratacion DATETIME)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    RETURN TIMESTAMPDIFF(YEAR, fecha_contratacion, CURDATE());
+END$$
+
+CREATE FUNCTION obtener_edad(fecha_nacimiento DATETIME)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    RETURN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE());
+END$$
+
+DELIMITER ;
