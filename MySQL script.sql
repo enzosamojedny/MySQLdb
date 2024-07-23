@@ -181,10 +181,9 @@ CREATE TABLE `inflacion` ( -- tomo valores EOD (fin del día)
     `tipo_indice` ENUM('CER', 'UVA', 'CVS') NOT NULL,  -- cvs = variacion salarios
     `comentario` VARCHAR(256) 
 );
-CREATE TABLE `historial_precios` (
+CREATE TABLE `historial_precios` ( -- precio se resuelve en una consulta SQL
     `id_historial_precio` INT PRIMARY KEY AUTO_INCREMENT,
     `idproducto` INT NOT NULL,
-    `precio` DECIMAL(10, 2) NOT NULL,
     `comentario` VARCHAR(256),
     `id_tipo_cambio` INT,  -- ref a tipo_de_cambio
     `id_inflacion` INT,  -- ref a inflacion
@@ -662,5 +661,27 @@ INSERT INTO `inflacion` (`fecha`, `tasa_mensual`, `TNA`, `TEA`, `tipo_indice`, `
 ('2024-06-15', 3.45, 42.60, 51.60, 'CVS',null),
 ('2024-07-15', 3.85, 43.65, 52.65, 'CER',null),
 ('2024-08-15', 3.70, 43.50, 52.50, 'UVA',null);
+INSERT INTO `historial_precios` (`idproducto`, `comentario`, `id_tipo_cambio`, `id_inflacion`) VALUES
+(1, 'Precio inicial', 1, 5),
+(2, 'Ajuste por inflación', 3, 10),
+(3, 'Revisión de precio', 5, 15),
+(4, 'Ajuste trimestral', 7, 20),
+(5, 'Actualización semestral', 9, 2),
+(6, 'Ajuste anual', 11, 4),
+(7, 'Revisión estacional', 13, 6),
+(8, 'Precio de fin de año', 15, 8),
+(9, 'Ajuste por tipo de cambio', 17, 12),
+(10, 'Revisión de mitad de año', 19, 14),
+(11, 'Nueva estrategia de precios', 2, 16),
+(12, 'Actualización regular', 4, 18),
+(13, 'Reducción de precio', 6, 1),
+(14, 'Precio promocional', 8, 3),
+(15, 'Precio revisado para el nuevo año', 10, 7),
+(16, 'Revisión trimestral', 12, 9),
+(17, 'Ajuste de temporada', 14, 11),
+(18, 'Nuevo precio', 16, 13),
+(19, 'Cambio regular de precio', 18, 17),
+(20, 'Ajustado por inflación', 20, 19);
+
 
 
