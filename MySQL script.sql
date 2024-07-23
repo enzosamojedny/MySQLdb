@@ -189,7 +189,6 @@ CREATE TABLE `historial_precios` (
     `id_tipo_cambio` INT,  -- ref a tipo_de_cambio
     `id_inflacion` INT,  -- ref a inflacion
     FOREIGN KEY (`idproducto`) REFERENCES `producto`(`idproducto`),
-    FOREIGN KEY (`actualizado_por`) REFERENCES `empleado`(`idempleado`),
     FOREIGN KEY (`id_tipo_cambio`) REFERENCES `tipo_cambio`(`id_tipo_cambio`),
     FOREIGN KEY (`id_inflacion`) REFERENCES `inflacion`(`id_inflacion`)
 );
@@ -198,9 +197,9 @@ CREATE TABLE `rentabilidad` (
     `idproducto` INT NOT NULL,
     `idventa` INT NOT NULL,
     `fecha` DATE NOT NULL,
-    `ingresos_totales` DECIMAL(10, 2) NOT NULL,  -- ganancia de cada venta
+    `ingresos_totales` DECIMAL(10, 2) NOT NULL,  -- Ganancia de cada venta
     `gastos` DECIMAL(10, 2) NOT NULL, 
-    `ingresos_netos` DECIMAL(10, 2) AS (`revenue - cost`) STORED,  -- ingresos - gastos
+    `ingresos_netos` DECIMAL(10, 2) AS (`ingresos_totales` - `gastos`) STORED,
     `id_tipo_cambio` INT,
     `id_inflacion` INT,
     FOREIGN KEY (`idproducto`) REFERENCES `producto`(`idproducto`),
