@@ -160,6 +160,56 @@ CREATE TABLE `venta` (
   FOREIGN KEY (`idimpuesto`) REFERENCES `impuesto` (`idimpuesto`),
   FOREIGN KEY (`idcomprobante`) REFERENCES `comprobante` (`idcomprobante`)
 );
+-- -----------------------------------------------------------------------------------------------------
+-- TABLAS FINANCIERAS DE LA EMPRESA
+
+
+CREATE TABLE `tipo_cambio` (
+    `id_tipo_cambio` INT PRIMARY KEY AUTO_INCREMENT,
+    `fecha` DATETIME NOT NULL,
+    `moneda` VARCHAR(3) NOT NULL, -- ISO 4217 codigo de moneda (ej, USD, EUR, ARS, AUD)
+    `tasa` DECIMAL(10, 4) NOT NULL  -- cambio contra moneda principal (ARS)
+);
+CREATE TABLE `inflacion` ( -- tomo valores EOD (fin del día)
+    `id_inflacion` INT PRIMARY KEY AUTO_INCREMENT,
+    `fecha` DATE NOT NULL,
+    `tasa_mensual` DECIMAL(5, 2) NOT NULL,
+    -- tasa son opcionales, puedo calcular la tasa en un _sp y hacer una formula de calculo de tasa quizas
+    -- solo tengo que tener datos necesarios para las formulas
+    `TNA` DECIMAL(5, 2) NOT NULL,
+    `TEA` DECIMAL(5, 2) NOT NULL,  -- en %
+    `tipo_indice` ENUM('CER', 'UVA', 'CVS') NOT NULL,  -- cvs = variacion salarios
+    `comentario` VARCHAR(256) 
+);
+CREATE TABLE `historial_precios` (
+    `id_historial_precio` INT PRIMARY KEY AUTO_INCREMENT,
+    `idproducto` INT NOT NULL,
+    `precio` DECIMAL(10, 2) NOT NULL,
+    `comentario` VARCHAR(256),
+    `id_tipo_cambio` INT,  -- ref a tipo_de_cambio
+    `id_inflacion` INT,  -- ref a inflacion
+    FOREIGN KEY (`idproducto`) REFERENCES `producto`(`idproducto`),
+    FOREIGN KEY (`actualizado_por`) REFERENCES `empleado`(`idempleado`),
+    FOREIGN KEY (`id_tipo_cambio`) REFERENCES `tipo_cambio`(`id_tipo_cambio`),
+    FOREIGN KEY (`id_inflacion`) REFERENCES `inflacion`(`id_inflacion`)
+);
+CREATE TABLE `rentabilidad` (
+    `id_rentabilidad` INT PRIMARY KEY AUTO_INCREMENT,
+    `idproducto` INT NOT NULL,
+    `idventa` INT NOT NULL,
+    `fecha` DATE NOT NULL,
+    `ingresos_totales` DECIMAL(10, 2) NOT NULL,  -- ganancia de cada venta
+    `gastos` DECIMAL(10, 2) NOT NULL, 
+    `ingresos_netos` DECIMAL(10, 2) AS (`revenue - cost`) STORED,  -- ingresos - gastos
+    `id_tipo_cambio` INT,
+    `id_inflacion` INT,
+    FOREIGN KEY (`idproducto`) REFERENCES `producto`(`idproducto`),
+    FOREIGN KEY (`idventa`) REFERENCES `venta`(`idventa`),
+    FOREIGN KEY (`id_tipo_cambio`) REFERENCES `tipo_cambio`(`id_tipo_cambio`),
+    FOREIGN KEY (`id_inflacion`) REFERENCES `inflacion`(`id_inflacion`)
+);
+-- -----------------------------------------------------------------------------------------------------
+
 -- TABLAS INTERMEDIAS (MANY-TO-MANY)
 -- tabla intermedia entre venta y producto
 CREATE TABLE `venta_producto` (
