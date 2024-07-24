@@ -79,6 +79,7 @@ CREATE TABLE `producto` (
   `descripcion` VARCHAR(256),
   `codigo_producto` VARCHAR(50),
   `stock` INT NOT NULL,
+  `precio_venta` DECIMAL(10, 2),
   `thumbnail` VARCHAR(256),
   `images` JSON,
   `idcategoria_default` INT, -- could be used for tagging default category among many
