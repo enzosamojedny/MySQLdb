@@ -158,7 +158,7 @@ CREATE TABLE `Venta` (
   `idempleado` INT DEFAULT NULL,
   `idimpuesto` INT NOT NULL, 
   `idcomprobante` INT DEFAULT NULL,
-  `descripcion` VARCHAR(256) NOT NULL,
+  `descripcion` VARCHAR(256) DEFAULT NULL,
   `monto` decimal(11,2) NOT NULL,
   `estado` ENUM('completada', 'cancelada','en proceso') NOT NULL,
   `metodo_de_pago` ENUM('efectivo', 'credito','debito', 'cuenta corriente', 'transferencia bancaria') NOT NULL,
