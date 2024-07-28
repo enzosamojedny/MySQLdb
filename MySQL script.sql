@@ -1,4 +1,4 @@
-CREATE TABLE `auditoria`(
+CREATE TABLE `Auditoria`(
 	`idAuditoria` INT PRIMARY KEY AUTO_INCREMENT,
     `descripcion` VARCHAR(60),
     `descripOld` VARCHAR(20),
@@ -11,14 +11,14 @@ CREATE TABLE `auditoria`(
 -- esto funciona asi: se hace un BEFORE INSERT en la tabla
 -- que querramos modificar y se hace el insert en la tabla de auditorias
 
-CREATE TABLE `categoria` (
+CREATE TABLE `Categoria` (
   `idcategoria` INT PRIMARY KEY AUTO_INCREMENT,
   `nombre` VARCHAR(100) UNIQUE NOT NULL,
   `descripcion` VARCHAR(256),
   `estado` BIT DEFAULT 1,
   INDEX(`nombre`)
 );
-CREATE TABLE `proveedor` (
+CREATE TABLE `Proveedor` (
   `idproveedor` INT PRIMARY KEY AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `razon_social` VARCHAR(100) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `proveedor` (
   `estado` ENUM('activo', 'inactivo') NOT NULL,
   INDEX(`nombre`)
 );
-CREATE TABLE `comprobante`(
+CREATE TABLE `Comprobante`(
   `idcomprobante` INT PRIMARY KEY AUTO_INCREMENT,
   `num_comprobante` DECIMAL(12, 0) NOT NULL,
   `descripcion_comprobante` VARCHAR(256) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `comprobante`(
   `fecha_modificacion` DATETIME,
   INDEX(`num_comprobante`)
 );
-CREATE TABLE `impuesto` (
+CREATE TABLE `Impuesto` (
   `idimpuesto` INT PRIMARY KEY AUTO_INCREMENT,
   `idcomprobante` INT,
   `nombre` VARCHAR(50) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `impuesto` (
   FOREIGN KEY (`idcomprobante`) REFERENCES `comprobante` (`idcomprobante`)
 );
 
-CREATE TABLE `detalle_ingreso_mercaderia` (
+CREATE TABLE `Detalle_ingreso_mercaderia` (
   `iddetalle_ingreso_mercaderia` INT PRIMARY KEY AUTO_INCREMENT,
   `idproveedor` INT NOT NULL,
   `idimpuesto` INT NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `detalle_ingreso_mercaderia` (
   FOREIGN KEY (`idcomprobante`) REFERENCES `comprobante` (`idcomprobante`)
 );
 
-CREATE TABLE `producto` (
+CREATE TABLE `Producto` (
   `idproducto` INT PRIMARY KEY AUTO_INCREMENT,
   `idcategoria` INT NOT NULL,
   `iddetalle_ingreso_mercaderia` INT NOT NULL,
@@ -98,13 +98,13 @@ CREATE TABLE `producto` (
   FOREIGN KEY (`idcategoria_default`) REFERENCES `categoria` (`idcategoria`)
 );
 
-CREATE TABLE `rol` (
+CREATE TABLE `Rol` (
   `idrol` INT PRIMARY KEY AUTO_INCREMENT,
   `nombre` VARCHAR(300) NOT NULL,
   `descripcion` VARCHAR(300),
   `estado` ENUM('activo', 'inactivo') NOT NULL
 );
-CREATE TABLE `persona` (
+CREATE TABLE `Persona` (
   `idpersona` INT PRIMARY KEY AUTO_INCREMENT,
   `idrol` INT NOT NULL,
   `nombre` VARCHAR(100) NOT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE `persona` (
   `genero` BIT DEFAULT 1,
   FOREIGN KEY (`idrol`) REFERENCES `rol` (`idrol`)
 );
-CREATE TABLE `cliente` (
+CREATE TABLE `Cliente` (
   `idcliente` INT PRIMARY KEY AUTO_INCREMENT,
   `idpersona` INT NOT NULL,
   `cantidad_devuelta` INT DEFAULT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE `cliente` (
   `puntos_cliente` INT DEFAULT 0,
    FOREIGN KEY (`idpersona`) REFERENCES `persona` (`idpersona`)
 );
-CREATE TABLE `empleado` (
+CREATE TABLE `Empleado` (
   `idempleado` INT PRIMARY KEY AUTO_INCREMENT,
   `idpersona` INT NOT NULL, -- te trae quien es la persona de la tabla personas
   `cargo` VARCHAR(50),
@@ -152,7 +152,7 @@ CREATE TABLE `empleado` (
    FOREIGN KEY (`idpersona`) REFERENCES `persona` (`idpersona`)
 );
 
-CREATE TABLE `venta` (
+CREATE TABLE `Venta` (
   `idventa` INT PRIMARY KEY AUTO_INCREMENT,
   `idcliente` INT DEFAULT NULL,
   `idempleado` INT DEFAULT NULL,
@@ -171,7 +171,7 @@ CREATE TABLE `venta` (
   FOREIGN KEY (`idimpuesto`) REFERENCES `impuesto` (`idimpuesto`),
   FOREIGN KEY (`idcomprobante`) REFERENCES `comprobante` (`idcomprobante`)
 );
-CREATE TABLE `carrito`(
+CREATE TABLE `Carrito`(
 `idcarrito` INT PRIMARY KEY AUTO_INCREMENT,
 `cantidad` INT, -- cantidad de productos en el carrito
 `fecha_agregado` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -180,7 +180,7 @@ CREATE TABLE `carrito`(
 FOREIGN KEY (`idcliente`) REFERENCES `cliente` (`idcliente`), -- un cliente puede tener un solo carrito
 FOREIGN KEY (`idproducto`) REFERENCES `producto`(`idproducto`)
 );
-CREATE TABLE `envio` ( -- sale desde tienda hasta centro de distribucion
+CREATE TABLE `Envio` ( -- sale desde tienda hasta centro de distribucion
 `idenvio` INT PRIMARY KEY AUTO_INCREMENT,
 `idcarrito` INT NOT NULL,
 `idcliente` INT NOT NULL, -- repeticion para asegurar integridad
@@ -191,7 +191,7 @@ CREATE TABLE `envio` ( -- sale desde tienda hasta centro de distribucion
 FOREIGN KEY (`idcliente`) REFERENCES `cliente` (`idcliente`),
 FOREIGN KEY (`idcarrito`) REFERENCES `carrito`(`idcarrito`)
 );
-CREATE TABLE `delivery` (
+CREATE TABLE `Delivery` (
 `iddelivery` INT AUTO_INCREMENT PRIMARY KEY,
 `idenvio` INT NOT NULL,
 `fecha_hora_inicio` DATETIME,  -- inicio del delivery
@@ -230,7 +230,7 @@ CREATE TABLE `Historial_Precios` (
     FOREIGN KEY (`id_tipo_cambio`) REFERENCES `tipo_cambio`(`id_tipo_cambio`),
     FOREIGN KEY (`id_inflacion`) REFERENCES `inflacion`(`id_inflacion`)
 );
-CREATE TABLE `rentabilidad` (
+CREATE TABLE `Rentabilidad` (
     `id_rentabilidad` INT PRIMARY KEY AUTO_INCREMENT,
     `idproducto` INT NOT NULL,
     `idventa` INT NOT NULL,
