@@ -450,43 +450,7 @@ VALUES
 (28, 'IVA', 'Nacional', 21.00, 'Impuesto al Valor Agregado', 'impago'),
 (29, 'Ganancias', 'Nacional', 35.00, 'Impuesto a las Ganancias', 'pendiente'),
 (30, 'Luz', 'Servicios', 27.00, 'Impuesto sobre el consumo de electricidad', 'pago');
-INSERT INTO `persona` (
-  `idrol`, `nombre`, `apellido`, `tipo_documento`, `num_documento`, 
-  `telefono`, `email`, `password`, `pais`, `provincia`, `ciudad`, 
-  `direccion1`, `direccion2`, `codigo_postal`, `fecha_nacimiento`, `fecha_modificacion`, 
-  `genero`
-) 
-VALUES
-(23, 'John', 'Doe', 'DNI', '12345678A', '123456789', 'john.doe@example.com', 'password123', 'USA', 'California', 'Los Angeles', '123 Main St', 'Apt 4B', '90001', '1990-01-15', '2024-06-17', 1),
-(5, 'Jane', 'Smith', 'Passport', 'AB123456', '987654321', 'jane.smith@example.com', 'password456', 'Canada', 'Ontario', 'Toronto', '456 Maple Ave', 'Unit 5A', 'M5H 2N2', '1985-07-20', '2024-06-17', 0),
-(16, 'Michael', 'Johnson', 'SSN', '987654321', '456789012', 'michael.johnson@example.com', 'password789', 'UK', 'England', 'London', '789 Elm St', 'Suite 3C', 'E1 6AN', '1982-03-10', '2024-06-17', 1),
-(29, 'Emily', 'Brown', 'Driver License', 'CD987654', '789012345', 'emily.brown@example.com', 'passwordabc', 'Australia', 'New South Wales', 'Sydney', '321 Pine Rd', 'Floor 2', '2000', '1995-09-05', '2024-06-17', 0),
-(11, 'David', 'Williams', 'DNI', '65432198B', '321654987', 'david.williams@example.com', 'passworddef', 'France', 'Paris', 'Paris', '654 Oak St', 'Bldg 1', '75001', '1988-12-25', '2024-06-17', 1),
-(9, 'Sarah', 'Jones', 'Passport', 'FG654321', '654987321', 'sarah.jones@example.com', 'passwordghi', 'Germany', 'Berlin', 'Berlin', '987 Spruce Ave', 'Apt 2D', '10115', '1992-06-30', '2024-06-17', 0),
-(22, 'James', 'Taylor', 'SSN', '456789012', '789012345', 'james.taylor@example.com', 'passwordjkl', 'Italy', 'Rome', 'Rome', '123 Cedar St', 'Floor 3', '00184', '1975-04-18', '2024-06-17', 1),
-(4, 'Emma', 'Davis', 'Driver License', 'HI123456', '012345678', 'emma.davis@example.com', 'passwordmno', 'Spain', 'Madrid', 'Madrid', '456 Birch St', 'Unit 6A', '28001', '1980-08-12', '2024-06-17', 0),
-(30, 'Christopher', 'Miller', 'DNI', '32165498C', '987654321', 'christopher.miller@example.com', 'passwordpqr', 'China', 'Beijing', 'Beijing', '789 Walnut St', 'Suite 5B', '100000', '1983-10-08', '2024-06-17', 1),
-(14, 'Olivia', 'Wilson', 'Passport', 'JK321654', '789012345', 'olivia.wilson@example.com', 'passwordstu', 'Japan', 'Tokyo', 'Tokyo', '321 Cherry St', 'Apt 1C', '100-0001', '1997-11-20', '2024-06-17', 0),
-(18, 'Matthew', 'Moore', 'SSN', '789012345', '654321987', 'matthew.moore@example.com', 'passwordvwx', 'Brazil', 'Rio de Janeiro', 'Rio de Janeiro', '654 Maple St', 'Unit 7B', '20000-000', '1990-02-28', '2024-06-17', 1),
-(3, 'Ava', 'Martinez', 'Driver License', 'LM987654', '012345678', 'ava.martinez@example.com', 'passwordyz1', 'Russia', 'Moscow', 'Moscow', '987 Aspen Ave', 'Suite 4C', '101000', '1987-05-15', '2024-06-17', 0),
-(27, 'Andrew', 'Hernandez', 'DNI', '65498732D', '987654321', 'andrew.hernandez@example.com', 'password234', 'India', 'New Delhi', 'New Delhi', '321 Palm St', 'Floor 5', '110001', '1984-07-04', '2024-06-17', 1),
-(8, 'Isabella', 'Garcia', 'Passport', 'NO654987', '789012345', 'isabella.garcia@example.com', 'password567', 'South Africa', 'Cape Town', 'Cape Town', '456 Poplar St', 'Unit 8A', '8001', '1993-09-10', '2024-06-17', 0),
-(13, 'Joshua', 'Lopez', 'SSN', '012345678', '654321987', 'joshua.lopez@example.com', 'password890', 'South Korea', 'Seoul', 'Seoul', '789 Fir Ave', 'Apt 2B', '03000', '1989-11-22', '2024-06-17', 1),
-(19, 'Sophia', 'Gonzalez', 'Driver License', 'PQ654987', '012345678', 'sophia.gonzalez@example.com', 'passwordabc1', 'Mexico', 'Mexico City', 'Mexico City', '123 Sycamore St', 'Suite 3D', '01000', '1996-01-07', '2024-06-17', 0),
-(6, 'William', 'Rodriguez', 'DNI', '76549832E', '987654321', 'william.rodriguez@example.com', 'passworddef2', 'Argentina', 'Buenos Aires', 'Buenos Aires', '456 Alder St', 'Unit 5A', '1000', '1981-02-14', '2024-06-17', 1),
-(26, 'Emily', 'Wilson', 'Passport', 'RS321654', '789012345', 'emily.wilson@example.com', 'passwordghi3', 'Canada', 'Quebec', 'Quebec City', '789 Hemlock St', 'Apt 6B', 'G1R 2L5', '1986-04-28', '2024-06-17', 0),
-(1, 'Ethan', 'Perez', 'SSN', '234567890', '654321987', 'ethan.perez@example.com', 'passwordjkl4', 'Germany', 'Munich', 'Munich', '321 Cypress St', 'Floor 2', '80331', '1994-06-13', '2024-06-17', 1),
-(15, 'Madison', 'Sanchez', 'Driver License', 'TU987654', '012345678', 'madison.sanchez@example.com', 'passwordmno5', 'France', 'Nice', 'Nice', '654 Magnolia St', 'Unit 3A', '06000', '1985-08-18', '2024-06-17', 0),
-(10, 'Alexander', 'Ramirez', 'DNI', '87654321F', '987654321', 'alexander.ramirez@example.com', 'passwordpqr6', 'Italy', 'Venice', 'Venice', '789 Linden St', 'Apt 4B', '30100', '1991-10-02', '2024-06-17', 1),
-(28, 'Mia', 'Torres', 'Passport', 'VW987654', '789012345', 'mia.torres@example.com', 'passwordstu7', 'Spain', 'Barcelona', 'Barcelona', '321 Sequoia St', 'Floor 3', '08001', '1988-12-17', '2024-06-17', 0),
-(25, 'Benjamin', 'Nguyen', 'SSN', '345678901', '654321987', 'benjamin.nguyen@example.com', 'passwordvwx8', 'UK', 'Manchester', 'Manchester', '456 Redwood St', 'Suite 7C', 'M1 1AE', '1995-02-01', '2024-06-17', 1),
-(12, 'Charlotte', 'Kim', 'Driver License', 'XY987654', '012345678', 'charlotte.kim@example.com', 'passwordyz19', 'USA', 'New York', 'New York', '789 Willow St', 'Apt 5D', '10001', '1982-03-27', '2024-06-17', 0),
-(2, 'Daniel', 'Le', 'DNI', '98765432G', '987654321', 'daniel.le@example.com', 'password23410', 'Australia', 'Victoria', 'Melbourne', '321 Maple Ave', 'Unit 6A', '3000', '1987-05-11', '2024-06-17', 1),
-(24, 'Avery', 'Tran', 'Passport', 'Z1A987654', '789012345', 'avery.tran@example.com', 'password56711', 'China', 'Shanghai', 'Shanghai', '456 Spruce St', 'Floor 2', '200000', '1992-07-26', '2024-06-17', 0),
-(20, 'Grace', 'Pham', 'SSN', '456789012', '654321987', 'grace.pham@example.com', 'password89012', 'Japan', 'Osaka', 'Osaka', '789 Cherry St', 'Unit 3B', '540-0001', '1989-09-09', '2024-06-17', 1),
-(21, 'Jackson', 'Choi', 'Driver License', 'B2C987654', '012345678', 'jackson.choi@example.com', 'passwordabc13', 'Brazil', 'Sao Paulo', 'Sao Paulo', '123 Oak St', 'Apt 4C', '01000-000', '1993-11-14', '2024-06-17', 0),
-(7, 'Chloe', 'Park', 'DNI', '987654321', '987654321', 'chloe.park@example.com', 'passworddef14', 'Russia', 'Saint Petersburg', 'Saint Petersburg', '456 Pine St', 'Unit 5B', '190000', '1988-01-01', '2024-06-17', 1),
-(17, 'Liam', 'Lee', 'Passport', 'D3E987654', '789012345', 'liam.lee@example.com', 'passwordghi15', 'UK', 'London', 'London', '789 Elm St', 'Suite 4C', 'E1 6AN', '1985-12-15', '2024-06-17', 0);
+
 INSERT INTO producto (
     idcategoria,
     iddetalle_ingreso_mercaderia,
