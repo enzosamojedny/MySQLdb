@@ -1,15 +1,22 @@
 CREATE TABLE `auditoria`(
-  `idAuditoria` INT PRIMARY KEY AUTO_INCREMENT,
-  `descripcion` VARCHAR(60),
-  `tipo_cambio_realizado` VARCHAR(256),
-  `fecha_cambio` DATETIME,
-  `responsable_cambio` VARCHAR(50)
+	`idAuditoria` INT PRIMARY KEY AUTO_INCREMENT,
+    `descripcion` VARCHAR(60),
+    `descripOld` VARCHAR(20),
+    `tipo_cambio_realizado` VARCHAR(256),
+    `fecha_cambio` DATETIME,
+    `responsable_cambio` VARCHAR(50),
+    `tabla_afectada` VARCHAR(100),
+    `id_registro_afectado` INT -- ver si es necesario
 );
+-- esto funciona asi: se hace un BEFORE INSERT en la tabla
+-- que querramos modificar y se hace el insert en la tabla de auditorias
+
 CREATE TABLE `categoria` (
   `idcategoria` INT PRIMARY KEY AUTO_INCREMENT,
   `nombre` VARCHAR(100) UNIQUE NOT NULL,
   `descripcion` VARCHAR(256),
-  `estado` BIT DEFAULT 1
+  `estado` BIT DEFAULT 1,
+  INDEX(`nombre`)
 );
 CREATE TABLE `proveedor` (
   `idproveedor` INT PRIMARY KEY AUTO_INCREMENT,
@@ -22,7 +29,8 @@ CREATE TABLE `proveedor` (
   `provincia` VARCHAR(100),
   `telefono` VARCHAR(100),
   `email` VARCHAR(50),
-  `estado` ENUM('activo', 'inactivo') NOT NULL
+  `estado` ENUM('activo', 'inactivo') NOT NULL,
+  INDEX(`nombre`)
 );
 CREATE TABLE `comprobante`(
   `idcomprobante` INT PRIMARY KEY AUTO_INCREMENT,
@@ -32,7 +40,8 @@ CREATE TABLE `comprobante`(
   `fecha_vencimiento` DATETIME,
   `estado` ENUM('pago', 'impago') NOT NULL,
   `condicion_IVA` VARCHAR(100),
-  `fecha_modificacion` DATETIME
+  `fecha_modificacion` DATETIME,
+  INDEX(`num_comprobante`)
 );
 CREATE TABLE `impuesto` (
   `idimpuesto` INT PRIMARY KEY AUTO_INCREMENT,
@@ -142,6 +151,7 @@ CREATE TABLE `empleado` (
   `estado` ENUM('activo', 'inactivo') NOT NULL,
    FOREIGN KEY (`idpersona`) REFERENCES `persona` (`idpersona`)
 );
+
 CREATE TABLE `venta` (
   `idventa` INT PRIMARY KEY AUTO_INCREMENT,
   `idcliente` INT DEFAULT NULL,
@@ -161,33 +171,61 @@ CREATE TABLE `venta` (
   FOREIGN KEY (`idimpuesto`) REFERENCES `impuesto` (`idimpuesto`),
   FOREIGN KEY (`idcomprobante`) REFERENCES `comprobante` (`idcomprobante`)
 );
+CREATE TABLE `carrito`(
+`idcarrito` INT PRIMARY KEY AUTO_INCREMENT,
+`cantidad` INT, -- cantidad de productos en el carrito
+`fecha_agregado` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+`idcliente` INT NOT NULL,
+`idproducto` INT NOT NULL,
+FOREIGN KEY (`idcliente`) REFERENCES `cliente` (`idcliente`), -- un cliente puede tener un solo carrito
+FOREIGN KEY (`idproducto`) REFERENCES `producto`(`idproducto`)
+);
+CREATE TABLE `envio` ( -- sale desde tienda hasta centro de distribucion
+`idenvio` INT PRIMARY KEY AUTO_INCREMENT,
+`idcarrito` INT NOT NULL,
+`idcliente` INT NOT NULL, -- repeticion para asegurar integridad
+`fecha_envio` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+`direccion` VARCHAR(255) NOT NULL,
+`provincia` VARCHAR(50) NOT NULL,
+`codigo_postal` VARCHAR(50),
+FOREIGN KEY (`idcliente`) REFERENCES `cliente` (`idcliente`),
+FOREIGN KEY (`idcarrito`) REFERENCES `carrito`(`idcarrito`)
+);
+CREATE TABLE `delivery` (
+`iddelivery` INT AUTO_INCREMENT PRIMARY KEY,
+`idenvio` INT NOT NULL,
+`fecha_hora_inicio` DATETIME,  -- inicio del delivery
+`fecha_hora_fin` DATETIME,     -- fin del delivery
+`disponible` BOOLEAN DEFAULT TRUE,
+FOREIGN KEY (`idenvio`) REFERENCES `envio`(`idenvio`)
+);
+
 -- -----------------------------------------------------------------------------------------------------
 -- TABLAS FINANCIERAS DE LA EMPRESA
 
-
-CREATE TABLE `tipo_cambio` (
+CREATE TABLE `Tipo_cambio` (
     `id_tipo_cambio` INT PRIMARY KEY AUTO_INCREMENT,
     `fecha` DATETIME NOT NULL,
-    `moneda` VARCHAR(3) NOT NULL, -- ISO 4217 codigo de moneda (ej, USD, EUR, ARS, AUD)
+    `moneda` VARCHAR(3) NOT NULL, -- ISO 4217 codigo de moneda (e.j., USD, EUR)
     `tasa` DECIMAL(10, 4) NOT NULL  -- cambio contra moneda principal (ARS)
 );
-CREATE TABLE `inflacion` ( -- tomo valores EOD (fin del día)
+CREATE TABLE `Inflacion` ( -- tomo valores EOD (fin del día)
     `id_inflacion` INT PRIMARY KEY AUTO_INCREMENT,
     `fecha` DATE NOT NULL,
     `tasa_mensual` DECIMAL(5, 2) NOT NULL,
     -- tasa son opcionales, puedo calcular la tasa en un _sp y hacer una formula de calculo de tasa quizas
-    -- solo tengo que tener datos necesarios para las formulas
+    -- solo tengo que ver que datos necesito para las formulas
     `TNA` DECIMAL(5, 2) NOT NULL,
     `TEA` DECIMAL(5, 2) NOT NULL,  -- en %
     `tipo_indice` ENUM('CER', 'UVA', 'CVS') NOT NULL,  -- cvs = variacion salarios
     `comentario` VARCHAR(256) 
 );
-CREATE TABLE `historial_precios` ( -- precio se resuelve en una consulta SQL
+CREATE TABLE `Historial_Precios` (
     `id_historial_precio` INT PRIMARY KEY AUTO_INCREMENT,
     `idproducto` INT NOT NULL,
     `comentario` VARCHAR(256),
-    `id_tipo_cambio` INT,  -- ref a tipo_de_cambio
-    `id_inflacion` INT,  -- ref a inflacion
+    `id_tipo_cambio` INT,  -- Referencia a tipo_cambio
+    `id_inflacion` INT,    -- Referencia a inflacion
     FOREIGN KEY (`idproducto`) REFERENCES `producto`(`idproducto`),
     FOREIGN KEY (`id_tipo_cambio`) REFERENCES `tipo_cambio`(`id_tipo_cambio`),
     FOREIGN KEY (`id_inflacion`) REFERENCES `inflacion`(`id_inflacion`)
@@ -209,7 +247,9 @@ CREATE TABLE `rentabilidad` (
 );
 -- -----------------------------------------------------------------------------------------------------
 
+
 -- TABLAS INTERMEDIAS (MANY-TO-MANY)
+
 -- tabla intermedia entre venta y producto
 CREATE TABLE `venta_producto` (
   `idventa` INT NOT NULL,
